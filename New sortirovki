@@ -1,0 +1,123 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void insertionSort(int a[], int n) {
+    for (int i = 1; i < n; i++) {
+        int k = a[i];
+        int j = i - 1;
+        while (j >= 0 && a[j] > k) {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = k;
+    }
+}
+
+void selectionSort(int a[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int m = i;
+        for (int j = i + 1; j < n; j++) {
+            if (a[j] < a[m])
+                m = j;
+        }
+        if (m != i) {
+            int t = a[i];
+            a[i] = a[m];
+            a[m] = t;
+        }
+    }
+}
+
+void bubbleSort(int a[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int f = 0;
+        for (int j = 0; j < n - i - 1; j++) {
+            if (a[j] > a[j + 1]) {
+                int t = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = t;
+                f = 1;
+            }
+        }
+        if (!f) break;
+    }
+}
+
+void gnomeSort(int a[], int n) {
+    int i = 0;
+    while (i < n) {
+        if (i == 0 || a[i - 1] <= a[i])
+            i++;
+        else {
+            int t = a[i];
+            a[i] = a[i - 1];
+            a[i - 1] = t;
+            i--;
+        }
+    }
+}
+
+void shellSort(int a[], int n) {
+    for (int g = n / 2; g > 0; g /= 2) {
+        for (int i = g; i < n; i++) {
+            int t = a[i];
+            int j;
+            for (j = i; j >= g && a[j - g] > t; j -= g)
+                a[j] = a[j - g];
+            a[j] = t;
+        }
+    }
+}
+
+int cmp(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int main() {
+    int original[] = {64, 25, 12, 22, 11};
+    int n = sizeof(original) / sizeof(original[0]);
+    int arr[5];
+
+    printf("Исходный: ");
+    for (int i = 0; i < n; i++) printf("%d ", original[i]);
+    printf("\n");
+
+    memcpy(arr, original, sizeof(original));
+    insertionSort(arr, n);
+    printf("Insertion: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+
+    memcpy(arr, original, sizeof(original));
+    selectionSort(arr, n);
+    printf("Selection: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+
+    memcpy(arr, original, sizeof(original));
+    bubbleSort(arr, n);
+    printf("Bubble: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+
+    memcpy(arr, original, sizeof(original));
+    gnomeSort(arr, n);
+    printf("Gnome: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+
+    memcpy(arr, original, sizeof(original));
+    shellSort(arr, n);
+    printf("Shell: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+
+    memcpy(arr, original, sizeof(original));
+    qsort(arr, n, sizeof(int), cmp);
+    printf("qsort: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+
+    return 0;
+}
